@@ -20,6 +20,8 @@ for (let i = 0; i < numRows; i++) {
 }
 
 //settiung the position of the snake
+let headCoordinate = [0,4];
+let tailCoordinate = [0,0];
 gridArray[0][0] = true
 gridArray[0][1] = true
 gridArray[0][2] = true
@@ -65,5 +67,24 @@ function drawGrid(arr) {
       }
     }
   }
-// Call the drawGrid function to draw the initial grid
-drawGrid(gridArray);
+
+
+function animFrame(){
+    drawGrid(gridArray);
+    setTimeout(function() {
+        requestAnimationFrame(animFrame,canvas);
+        onEachStep();
+    }, 1000/10);
+}
+function onEachStep() {
+    headCoordinate[1] = (headCoordinate[1] + 1) % 25
+    gridArray[0][headCoordinate[1]] = true;
+    gridArray[0][tailCoordinate[1]] = false;
+    tailCoordinate[1] = (tailCoordinate[1] + 1) % 25
+    console.log('draw')
+    drawGrid(gridArray);
+};
+
+
+animFrame();
+
