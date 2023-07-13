@@ -50,10 +50,11 @@ function drawGrid(arr) {
     for (let x = 0; x < gridSize; x++) {
       for (let y = 0; y < gridSize; y++) {
         const filled = arr[y][x];
-        
+
         // Set the fill color based on the boolean value
         ctx.fillStyle = filled ? "#000" : "#FFF";
         
+        x === headCoordinate[1] && y === headCoordinate[0] ? ctx.fillStyle = 'red': null;
         // Calculate the coordinates of the square
         const squareX = x * squareSize;
         const squareY = y * squareSize;
