@@ -5,7 +5,7 @@ const canvasSize = 500; // Size of the canvas in pixels
 // Define the two-dimensional array representing the grid
 const numRows = gridSize;
 const numColumns = gridSize;
-const snakeBody = [[0,0],[1,0],[2,0],[3,0]];
+const snakeBody = [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,0]];
 
 const game = new Game({numColumns, numRows, snakeBody})
 const squareSize = canvasSize / gridSize; // Size of each square
@@ -14,16 +14,16 @@ document.onkeydown = (e) => {
   e = e || window.event;
   if (e.keyCode === 38) {
     game.setDirection('up');
-    console.log("up arrow pressed");
+    //console.log("up arrow pressed");
   } else if (e.keyCode === 40) {
     game.setDirection('down');
-    console.log("down arrow pressed");
+    //console.log("down arrow pressed");
   } else if (e.keyCode === 37) {
     game.setDirection('left');
-    console.log("left arrow pressed");
+    //console.log("left arrow pressed");
   } else if (e.keyCode === 39) {
     game.setDirection('right');
-    console.log("right arrow pressed");
+    //console.log("right arrow pressed");
   }
 };
 
@@ -67,7 +67,7 @@ function drawGrid(arr) {
     }
     
     // Draw snake body
-    arr?.forEach((element, index) => {
+    arr.forEach((element, index) => {
       const x = element[0];
       const y = element[1];
       const squareX = x * squareSize;
@@ -82,10 +82,19 @@ function drawGrid(arr) {
       
       ctx.fillRect(squareX, squareY, squareSize, squareSize);
     });
+
+    // draw seed
+    const seedX = game.seed[0];
+    const seedY = game.seed[1];
+    const squareX = seedX * squareSize;
+    const squareY = seedY * squareSize;
+    ctx.fillStyle ="green";
+    ctx.fillRect(squareX, squareY, squareSize, squareSize);
   }
 
 
 function animFrame(){
+    if(game.checkForCollision()) return null
     drawGrid(game.snakeBody);
     setTimeout(function() {
         requestAnimationFrame(animFrame,canvas);
@@ -94,7 +103,32 @@ function animFrame(){
 }
 function onEachStep() {
     game.calculateNextState();
-    drawGrid(game.gridArray);
+    if(game.isSeedEaten()){
+      game.seed = game.generateNewSeed();
+    }
+    if(game.checkForCollision()){
+      const text = 'Game over';
+      const fontSize = 60;
+      const fontFamily = 'Arial';
+
+      // Set font properties
+      ctx.font = `${fontSize}px ${fontFamily}`;
+
+      // Calculate center coordinates
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      // Set text alignment to center
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Draw the text in the center of the canvas
+      ctx.fillText(text, centerX, centerY);
+    }else{
+      drawGrid(game.snakeBody);
+    }
+    
+    
 };
 
 
