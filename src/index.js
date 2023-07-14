@@ -63,23 +63,25 @@ function drawGrid(arr) {
         // Draw the grid lines
         ctx.strokeStyle = "#000";
         ctx.strokeRect(squareX, squareY, squareSize, squareSize);
-        arr?.forEach((element, index) => {
-          const x = element[0];
-          const y = element[1];
-          const squareX = x * squareSize;
-          const squareY = y * squareSize;
-          
-          // Draw the square
-          if(index === arr.length - 1){
-            ctx.fillStyle ="red";
-          }else{
-            ctx.fillStyle ="#000";
-          }
-          
-          ctx.fillRect(squareX, squareY, squareSize, squareSize);
-        });
       }
     }
+    
+    // Draw snake body
+    arr?.forEach((element, index) => {
+      const x = element[0];
+      const y = element[1];
+      const squareX = x * squareSize;
+      const squareY = y * squareSize;
+      
+      // Draw the square
+      if(index === arr.length - 1){
+        ctx.fillStyle ="red";
+      }else{
+        ctx.fillStyle ="#000";
+      }
+      
+      ctx.fillRect(squareX, squareY, squareSize, squareSize);
+    });
   }
 
 
@@ -91,13 +93,6 @@ function animFrame(){
     }, 1000/10);
 }
 function onEachStep() {
-    // headCoordinate = game.headCoordinate;
-    // tailCoordinate = game.tailCoordinate;
-    // gridArray = game.gridArray;
-    // headCoordinate[1] = (headCoordinate[1] + 1) % 25
-    // gridArray[0][headCoordinate[1]] = true;
-    // gridArray[0][tailCoordinate[1]] = false;
-    // tailCoordinate[1] = (tailCoordinate[1] + 1) % 25
     game.calculateNextState();
     drawGrid(game.gridArray);
 };
