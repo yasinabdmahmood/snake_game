@@ -11,6 +11,7 @@ class Game{
         this.direction = 'right';
         this.oldDirection = 'right';
         this.seed = this.generateNewSeed();
+        this.seedStack = [];
 
     }
     
@@ -99,14 +100,13 @@ class Game{
       }
 
       const isSeedOnSnakeBody =(seed,snakeBody) => {
+        let result = false;
         snakeBody.forEach(element => {
           if(element[0] === seed[0] && element[1] === seed[1]){
-            return true
-          }
-          else{
-            return false
+            result = true
           }
         });
+        return result
       }
 
       let seed = generateRandomSeed();
@@ -130,6 +130,27 @@ class Game{
       }else{
         return false
       }
+    }
+
+    expandSnakeBodyIfNecessary(){
+      const snakeBody = this.snakeBody;
+      const seedStack = this.seedStack;
+      const tailCoordinate = snakeBody[0];
+      const tailCoordinateX = tailCoordinate[0];
+      const tailCoordinateY = tailCoordinate[1];
+      seedStack.forEach((elm, idx)=>{
+        const SeedX = elm[0]
+        const SeedY = elm[1]
+        if(SeedX === tailCoordinateX && SeedY === tailCoordinateY){
+          console.log('expand')
+          console.log(snakeBody.length)
+          const item = seedStack.splice(idx, 1);
+          snakeBody.unshift(item);
+        }
+      })
+      
+      
+      
     }
 }
 
