@@ -112,6 +112,8 @@ function onEachStep() {
       game.seed = game.generateNewSeed();
     }
     if(game.checkForCollision()){
+      const audio = new Audio('../assets/sounds/gameover.wav');
+      audio.play();
       const text = 'Game over';
       const fontSize = 60;
       const fontFamily = 'Arial';
