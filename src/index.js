@@ -63,14 +63,19 @@ function drawGrid(arr) {
         // Draw the grid lines
         ctx.strokeStyle = "#000";
         ctx.strokeRect(squareX, squareY, squareSize, squareSize);
-        arr?.forEach(element => {
+        arr?.forEach((element, index) => {
           const x = element[0];
           const y = element[1];
           const squareX = x * squareSize;
           const squareY = y * squareSize;
           
           // Draw the square
-          ctx.fillStyle ="#000";
+          if(index === arr.length - 1){
+            ctx.fillStyle ="red";
+          }else{
+            ctx.fillStyle ="#000";
+          }
+          
           ctx.fillRect(squareX, squareY, squareSize, squareSize);
         });
       }
