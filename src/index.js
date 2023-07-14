@@ -6,6 +6,8 @@ const canvasSize = 500; // Size of the canvas in pixels
 const numRows = gridSize;
 const numColumns = gridSize;
 const snakeBody = [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,0]];
+// 
+// 
 
 const game = new Game({numColumns, numRows, snakeBody})
 const squareSize = canvasSize / gridSize; // Size of each square
@@ -103,7 +105,9 @@ function animFrame(){
 }
 function onEachStep() {
     game.calculateNextState();
+    game.expandSnakeBodyIfNecessary()
     if(game.isSeedEaten()){
+      game.seedStack.push(game.seed)
       game.seed = game.generateNewSeed();
     }
     if(game.checkForCollision()){
@@ -121,6 +125,8 @@ function onEachStep() {
       // Set text alignment to center
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      // font color
+      ctx.fillStyle ="red";
 
       // Draw the text in the center of the canvas
       ctx.fillText(text, centerX, centerY);
