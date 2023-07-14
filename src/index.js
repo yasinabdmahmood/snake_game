@@ -108,6 +108,8 @@ function onEachStep() {
     game.calculateNextState();
     
     if(game.isSeedEaten()){
+      const audio = new Audio('../assets/sounds/seedeaten.wav');
+      audio.play();
       game.seedStack.push(game.seed)
       game.seed = game.generateNewSeed();
     }
