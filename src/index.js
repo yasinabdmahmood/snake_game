@@ -1,32 +1,33 @@
+
 const gridSize = 25; // Number of squares in each row and column
 const canvasSize = 500; // Size of the canvas in pixels
-const squareSize = canvasSize / gridSize; // Size of each square
 
 // Define the two-dimensional array representing the grid
 const numRows = gridSize;
 const numColumns = gridSize;
+const snakeBody = [[0,0],[1,0],[2,0],[3,0]];
 
-// Create a new 2D array
-const gridArray = [];
-for (let i = 0; i < numRows; i++) {
-  // Create a new row
-  const row = [];
-  for (let j = 0; j < numColumns; j++) {
-    // Set each value to false
-    row.push(false);
+const game = new Game({numColumns, numRows, snakeBody})
+const squareSize = canvasSize / gridSize; // Size of each square
+
+document.onkeydown = (e) => {
+  e = e || window.event;
+  if (e.keyCode === 38) {
+    game.setDirection('up');
+    console.log("up arrow pressed");
+  } else if (e.keyCode === 40) {
+    game.setDirection('down');
+    console.log("down arrow pressed");
+  } else if (e.keyCode === 37) {
+    game.setDirection('left');
+    console.log("left arrow pressed");
+  } else if (e.keyCode === 39) {
+    game.setDirection('right');
+    console.log("right arrow pressed");
   }
-  // Add the row to the array
-  gridArray.push(row);
-}
+};
 
-//settiung the position of the snake
-let headCoordinate = [0,4];
-let tailCoordinate = [0,0];
-gridArray[0][0] = true
-gridArray[0][1] = true
-gridArray[0][2] = true
-gridArray[0][3] = true
-gridArray[0][4] = true
+
 
 // Get the canvas element from the DOM
 const canvas = document.getElementById("canvas");
@@ -49,12 +50,9 @@ function drawGrid(arr) {
     // Draw the grid
     for (let x = 0; x < gridSize; x++) {
       for (let y = 0; y < gridSize; y++) {
-        const filled = arr[y][x];
-
         // Set the fill color based on the boolean value
-        ctx.fillStyle = filled ? "#000" : "#FFF";
-        
-        x === headCoordinate[1] && y === headCoordinate[0] ? ctx.fillStyle = 'red': null;
+        ctx.fillStyle ="#FFF";
+
         // Calculate the coordinates of the square
         const squareX = x * squareSize;
         const squareY = y * squareSize;
@@ -65,25 +63,38 @@ function drawGrid(arr) {
         // Draw the grid lines
         ctx.strokeStyle = "#000";
         ctx.strokeRect(squareX, squareY, squareSize, squareSize);
+        arr?.forEach(element => {
+          const x = element[0];
+          const y = element[1];
+          const squareX = x * squareSize;
+          const squareY = y * squareSize;
+          
+          // Draw the square
+          ctx.fillStyle ="#000";
+          ctx.fillRect(squareX, squareY, squareSize, squareSize);
+        });
       }
     }
   }
 
 
 function animFrame(){
-    drawGrid(gridArray);
+    drawGrid(game.snakeBody);
     setTimeout(function() {
         requestAnimationFrame(animFrame,canvas);
         onEachStep();
     }, 1000/10);
 }
 function onEachStep() {
-    headCoordinate[1] = (headCoordinate[1] + 1) % 25
-    gridArray[0][headCoordinate[1]] = true;
-    gridArray[0][tailCoordinate[1]] = false;
-    tailCoordinate[1] = (tailCoordinate[1] + 1) % 25
-    console.log('draw')
-    drawGrid(gridArray);
+    // headCoordinate = game.headCoordinate;
+    // tailCoordinate = game.tailCoordinate;
+    // gridArray = game.gridArray;
+    // headCoordinate[1] = (headCoordinate[1] + 1) % 25
+    // gridArray[0][headCoordinate[1]] = true;
+    // gridArray[0][tailCoordinate[1]] = false;
+    // tailCoordinate[1] = (tailCoordinate[1] + 1) % 25
+    game.calculateNextState();
+    drawGrid(game.gridArray);
 };
 
 
