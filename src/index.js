@@ -104,8 +104,9 @@ function animFrame(){
     }, 1000/10);
 }
 function onEachStep() {
-    game.calculateNextState();
     game.expandSnakeBodyIfNecessary()
+    game.calculateNextState();
+    
     if(game.isSeedEaten()){
       game.seedStack.push(game.seed)
       game.seed = game.generateNewSeed();
