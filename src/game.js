@@ -70,7 +70,7 @@ class Game{
       const condition3 = this.direction === 'up' && newDirection === 'down';
       const condition4 = this.direction === 'down' && newDirection === 'up';
       if(condition1 || condition2 || condition3 || condition4) return;
-      this.oldDirection = this.direction;
+      //this.oldDirection = this.direction;
       this.direction = newDirection;
     }
 
@@ -83,7 +83,13 @@ class Game{
         const item = snakeBody[i];
         const xCoordinate = item[0];
         const yCoordinate = item[1];
-        if(headX === xCoordinate && headY === yCoordinate) return true
+        if(headX === xCoordinate && headY === yCoordinate) {
+          console.log('item', item)
+          console.log('snake body',snakeBody);
+          console.log('headCoordinate',headCoordinate);
+          debugger;
+          return true
+        }
       }
       return false
     }
