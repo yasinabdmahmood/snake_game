@@ -20,6 +20,7 @@ class Game{
       const direction =this.direction;
       const oldDirection = this.oldDirection;
       const snakeBody = this.snakeBody;
+      const seedStack = this.seedStack;
       const headCoordinate = snakeBody[snakeBody.length - 1];
       const tailCoordinate = snakeBody[0];
       const x = headCoordinate[0];
@@ -46,7 +47,25 @@ class Game{
       }
       const newHeadCoordinate = [newX, newY];
       snakeBody.push(newHeadCoordinate);
-      snakeBody.shift();
+
+      const tailCoordinateX = tailCoordinate[0];
+      const tailCoordinateY = tailCoordinate[1];
+      let shoudSnakeBodyBeExpanded = false;
+      seedStack.forEach((elm, idx)=>{
+        const SeedX = elm[0]
+        const SeedY = elm[1]
+        if(SeedX === tailCoordinateX && SeedY === tailCoordinateY){
+          console.log('expand')
+          console.log(snakeBody.length)
+          const item = seedStack.splice(idx, 1);
+          shoudSnakeBodyBeExpanded = true;
+          //snakeBody.unshift(item);
+        }
+      })
+      if(!shoudSnakeBodyBeExpanded){
+        snakeBody.shift();
+      }
+      
       
 
     }
