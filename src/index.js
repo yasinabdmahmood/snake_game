@@ -103,7 +103,6 @@ function animFrame(){
     }, 1000/10);
 }
 function onEachStep() {
-    game.expandSnakeBodyIfNecessary()
     game.calculateNextState();
     
     if(game.isSeedEaten()){
