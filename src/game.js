@@ -157,25 +157,5 @@ class Game{
       }
     }
 
-    expandSnakeBodyIfNecessary(){
-      const snakeBody = this.snakeBody;
-      const seedStack = this.seedStack;
-      const tailCoordinate = snakeBody[0];
-      const tailCoordinateX = tailCoordinate[0];
-      const tailCoordinateY = tailCoordinate[1];
-      seedStack.forEach((elm, idx)=>{
-        const SeedX = elm[0]
-        const SeedY = elm[1]
-        if(SeedX === tailCoordinateX && SeedY === tailCoordinateY){
-          console.log('expand')
-          console.log(snakeBody.length)
-          const item = seedStack.splice(idx, 1);
-          snakeBody.unshift(item);
-        }
-      })
-      
-      
-      
-    }
 }
 
